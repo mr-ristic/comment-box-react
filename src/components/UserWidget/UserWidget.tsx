@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ListBox } from './style';
 
 interface UserObject {
   username: string;
@@ -22,7 +23,7 @@ const UserWidget = ({ userList, searchTerm }: Props) => {
     return null;
   }
   return (
-    <>
+    <ListBox>
       <ul title='Tag User'>
         {filteredList.map(({ username, avatar_url, name }) => (
           <li key={username}>
@@ -31,7 +32,7 @@ const UserWidget = ({ userList, searchTerm }: Props) => {
           </li>
         ))}
       </ul>
-    </>
+    </ListBox>
   );
 };
 

@@ -1,24 +1,12 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import TextBox from './components/TextBox';
 
-const Button = styled.button`
-  background: red;
-`;
-interface Props {
-  text: string;
-  onClickAction?: () => void;
-}
-
-const CommentBox = ({ text, onClickAction }: Props) => {
+const CommentBox = () => {
   return (
     <div>
-      Example Component: {text}
-      <Button onClick={onClickAction}>Click me 2</Button>
+      <TextBox />
     </div>
   );
 };
 
-CommentBox.defaultProps = {
-  onClickAction: () => false
-};
 export default CommentBox;
