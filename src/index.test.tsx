@@ -1,8 +1,8 @@
-import Index from './index'
-import 'jest-styled-components'
+import ExampleComponent from './index';
+import 'jest-styled-components';
 
 describe('ExampleComponent', () => {
   it('is truthy', () => {
-    expect(Index).toBeTruthy()
-  })
-})
+    expect(ExampleComponent).toBeTruthy();
+  });
+});

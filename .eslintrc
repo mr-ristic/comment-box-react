@@ -13,7 +13,8 @@
     "node": true,
     "es2020": true,
     "commonjs": true,
-    "browser": true
+    "browser": true,
+    "jest": true
   },
   "parserOptions": {
     "ecmaVersion": 2020,
@@ -28,6 +29,7 @@
     }
   },
   "rules": {
+    // Imoported from eslint-config-hypothesis
     // Standard ESLint rules.
     //
     // See https://eslint.org/docs/rules/.

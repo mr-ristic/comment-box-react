@@ -1,10 +1,10 @@
 import React from 'react'
 
-import { ExampleComponent } from 'comment-box-react'
+import  CommentBox from 'comment-box-react'
 import 'comment-box-react/dist/index.css'
 
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  return <CommentBox text="CM box Example 😄" />
 }
 
 export default App
