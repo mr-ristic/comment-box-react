@@ -13,12 +13,14 @@ interface Props {
 }
 
 const UserWidget = ({ userList, searchTerm }: Props) => {
+  // Filter user list with the search term
   const filteredList = userList.filter(
     (item) =>
-      (item.username.indexOf(searchTerm) > -1 ||
-        item.name.indexOf(searchTerm) > -1) &&
+      (item.username.toLowerCase().indexOf(searchTerm) > -1 ||
+        item.name.toLowerCase().indexOf(searchTerm) > -1) &&
       item
   );
+  // If no results do not show the list
   if (!filteredList.length) {
     return null;
   }

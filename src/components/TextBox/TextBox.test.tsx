@@ -1,14 +1,15 @@
 import React from 'react';
 import TextBox from './index';
 import 'jest-styled-components';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('TextBox.test', () => {
   it('TextBox is truthy - Component exists', () => {
     expect(TextBox).toBeTruthy();
   });
 
-  it('TextBox renders textarea field with prope label & id', () => {
+  it('TextBox should render textarea field with prope label & id', () => {
     const { getByLabelText } = render(<TextBox />);
     const textArea = getByLabelText('Write your comment:');
     expect(textArea.id).toBe('comment-field');
@@ -17,10 +18,21 @@ describe('TextBox.test', () => {
   it('TestBox should render a UserWidget', () => {
     render(<TextBox />);
     const textArea = screen.getByLabelText('Write your comment:');
-    fireEvent.change(textArea, { target: { value: '@' } });
-    fireEvent.change(textArea, { target: { value: 'Joh' } });
+    userEvent.type(textArea, '@jo');
 
     const UserWidget = screen.getByTitle('Tag User');
     expect(UserWidget).toBeTruthy();
+  });
+
+  it('TextBox should display user when typed @ within text and cancel on ESC keypress', () => {
+    render(<TextBox />);
+    const textArea = screen.getByLabelText('Write your comment:');
+    userEvent.type(textArea, 'Here is my comment, what do you think @jo');
+
+    const UserWidget = screen.queryByTitle('Tag User');
+    expect(UserWidget).toBeTruthy();
+
+    userEvent.type(textArea, 'Escape');
+    expect(screen.queryByTitle('Tag User')).toBe(null);
   });
 });
