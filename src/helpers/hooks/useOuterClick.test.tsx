@@ -6,11 +6,10 @@ import useOuterClick from './useOuterClick';
 describe('Custom Hook test - Outer click', () => {
   it('should catch click on outisde of div', async () => {
     const ExampleComponent = () => {
-      const wrapperRef = useRef(null);
       const innerRef = useRef(null);
-      const { isOuter } = useOuterClick(wrapperRef, innerRef);
+      const { isOuter } = useOuterClick(innerRef);
       return (
-        <div className='container' ref={wrapperRef}>
+        <div className='container'>
           <div ref={innerRef} className='inner'>
             Inner Div<button>button</button>
           </div>
