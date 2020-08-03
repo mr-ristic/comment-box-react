@@ -35,4 +35,16 @@ describe('TextBox.test', () => {
     userEvent.type(textArea, 'Escape');
     expect(screen.queryByTitle('Tag User')).toBe(null);
   });
+
+  it('TextBox should display userList and cancel it on outh of focus', () => {
+    render(<TextBox />);
+    const textArea = screen.getByLabelText('Write your comment:');
+    userEvent.type(textArea, '@jo');
+
+    const UserWidget = screen.queryByTitle('Tag User');
+    expect(UserWidget).toBeTruthy();
+
+    userEvent.click(document.body);
+    expect(screen.queryByTitle('Tag User')).toBe(null);
+  });
 });
