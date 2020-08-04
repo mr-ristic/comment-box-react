@@ -30,6 +30,10 @@ const UserWidget = ({
       item
   );
 
+  const selectOnClick = (listIndex: number) => {
+    selectUser(filteredList[listIndex].username);
+  };
+
   const [highlighted, setHighlighted] = useState(-1);
 
   useEffect(() => {
@@ -74,8 +78,8 @@ const UserWidget = ({
   return (
     <ListBox>
       <ul title='Tag User'>
-        {filteredList.map(({ username, avatar_url, name }) => (
-          <li key={username}>
+        {filteredList.map(({ username, avatar_url, name }, key) => (
+          <li key={key} onClick={() => selectOnClick(key)}>
             <img src={avatar_url} alt={name} />
             <h3>{username}</h3>
           </li>

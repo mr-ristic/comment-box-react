@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import 'jest-styled-components';
 import { render, screen, fireEvent } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
 import UserWidget from './UserWidget';
 
 describe('UserWidget.test', () => {
@@ -39,7 +39,7 @@ describe('UserWidget.test', () => {
     expect(UserWidget).toBeTruthy();
   });
 
-  it('UserWidget should call selectUser and cancelUser', () => {
+  it('UserWidget should call selectUser', () => {
     render(<OuterComponnt />);
     const l = screen.getByRole('list');
     fireEvent.keyDown(l, { key: 'Tab', code: 'Tab' });
@@ -62,6 +62,14 @@ describe('UserWidget.test', () => {
     fireEvent.keyDown(l, { key: 'ArrowDown', code: 'ArrowDown' });
     fireEvent.keyDown(l, { key: 'ArrowDown', code: 'ArrowDown' });
     fireEvent.keyDown(l, { key: 'Enter', code: 'Enter' });
+    expect(selectUser).toBeCalledWith('df-username2');
+  });
+
+  it('UserWidget should select second in the list when clicked on listItem', () => {
+    render(<OuterComponnt />);
+    const item = screen.getByAltText('Ted');
+
+    userEvent.click(item);
     expect(selectUser).toBeCalledWith('df-username2');
   });
 });
