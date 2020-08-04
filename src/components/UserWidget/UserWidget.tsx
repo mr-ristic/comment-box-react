@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ListBox } from './style';
 
 interface UserObject {
@@ -8,7 +8,7 @@ interface UserObject {
 }
 
 interface Props {
-  userList: [UserObject];
+  userList: Array<UserObject>;
   searchTerm: string;
   wrapperRef: React.RefObject<any>;
   cancelSearch: () => void;
@@ -30,6 +30,8 @@ const UserWidget = ({
       item
   );
 
+  const [highlighted, setHighlighted] = useState(-1);
+
   useEffect(() => {
     //  handle key press event like esc to cacnel the display of the list
     const handleKeyPress = (e: React.KeyboardEvent<any>) => {
@@ -38,10 +40,18 @@ const UserWidget = ({
       if (keyInput === 'Escape') {
         cancelSearch();
       }
-      if (keyInput === 'Tab') {
-        // TODO select first user
+      // select highlighted user
+      if (keyInput === 'Tab' || keyInput === 'Enter') {
         e.preventDefault();
-        selectUser(filteredList[0].username);
+        const selectIndex = highlighted < 0 ? 0 : highlighted;
+        selectUser(filteredList[selectIndex].username);
+      }
+      // highliht users
+      if (keyInput === 'ArrowDown') {
+        e.preventDefault();
+        const next = highlighted + 1;
+        const listLength = filteredList.length;
+        setHighlighted(next > listLength ? next % listLength : next);
       }
     };
 
@@ -54,7 +64,7 @@ const UserWidget = ({
         wrapper.current.removeEventListener('keydown', handleKeyPress);
       }
     };
-  }, [wrapperRef, cancelSearch, filteredList, selectUser]);
+  }, [wrapperRef, cancelSearch, filteredList, selectUser, highlighted]);
 
   // If no results do not show the list
   if (!filteredList.length) {

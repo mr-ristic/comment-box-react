@@ -22,9 +22,15 @@ describe('UserWidget.test', () => {
               avatar_url:
                 'https://secure.gravatar.com/avatar/f04241571d95d005e4a54f4278670718?d=mm',
               name: 'John Doe'
+            },
+            {
+              username: 'df-username2',
+              avatar_url:
+                'https://secure.gravatar.com/avatar/f04241571d95d005e4a54f4278670718?d=mm',
+              name: 'Ted'
             }
           ]}
-          searchTerm='jo'
+          searchTerm=''
         />
       </div>
     );
@@ -35,7 +41,7 @@ describe('UserWidget.test', () => {
 
   it('UserWidget should call selectUser and cancelUser', () => {
     render(<OuterComponnt />);
-    const l = screen.getByRole('listitem');
+    const l = screen.getByRole('list');
     fireEvent.keyDown(l, { key: 'Tab', code: 'Tab' });
 
     expect(selectUser.mock.calls.length).toBe(1);
@@ -44,8 +50,18 @@ describe('UserWidget.test', () => {
 
   it('UserWidget should call cancel User', () => {
     render(<OuterComponnt />);
-    const l = screen.getByRole('listitem');
+    const l = screen.getByRole('list');
     fireEvent.keyDown(l, { key: 'Escape', code: 'Escape' });
     expect(cancel.mock.calls.length).toBe(1);
+  });
+
+  it('UserWidget should select second in the list when hits the arrow down 2 times', () => {
+    render(<OuterComponnt />);
+    const l = screen.getByRole('list');
+
+    fireEvent.keyDown(l, { key: 'ArrowDown', code: 'ArrowDown' });
+    fireEvent.keyDown(l, { key: 'ArrowDown', code: 'ArrowDown' });
+    fireEvent.keyDown(l, { key: 'Enter', code: 'Enter' });
+    expect(selectUser).toBeCalledWith('df-username2');
   });
 });
