@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('TextBox.test', () => {
-  it('TextBox is truthy - Component exists', () => {
+  it('TextBox is truthy', () => {
     expect(TextBox).toBeTruthy();
   });
 

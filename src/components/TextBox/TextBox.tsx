@@ -15,6 +15,18 @@ const defalutProps = {
       avatar_url:
         'https://secure.gravatar.com/avatar/f04241571d95d005e4a54f4278670718?d=mm',
       name: 'John Doe'
+    },
+    {
+      username: 'df-username2',
+      avatar_url:
+        'https://secure.gravatar.com/avatar/f04241571d95d005e4a54f4278670718?d=mm',
+      name: 'John Doe 2'
+    },
+    {
+      username: 'df-username3',
+      avatar_url:
+        'https://secure.gravatar.com/avatar/f04241571d95d005e4a54f4278670718?d=mm',
+      name: 'John Doe 3'
     }
   ]
 };
@@ -26,37 +38,35 @@ type Props = {
 const TextBox = ({ userObjects }: Props) => {
   const [searchStarted, setSearchStarted] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [textAreaValue, setTextAreaValue] = useState('');
   const innerRef = useRef(null);
   const { isOuter, setIsOuter } = useOuterClick(innerRef);
-
+  const [selectedUser, setSelectedUser] = useState('');
   // resets state to default
   const cancelSearch = () => {
     setSearchStarted(false);
     setSearchTerm('');
   };
-  //  handle key press event like esc to cacnel the display of the list
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    const keyInput = e.key;
-    // if users hits ESC reset search
-    if (keyInput === 'Escape') {
-      cancelSearch();
-    }
-  };
   // handle typing so we can display filtered list with as few possible re-rendes
   // another implementation would be with useEffect
   const handleTyping = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const userSearch = e.target.value;
+    setTextAreaValue(userSearch);
     if (userSearch.indexOf('@') > -1) {
       setSearchStarted(true);
     }
-
     // if @ is delted cancel search
     if (userSearch.indexOf('@') === -1 && searchStarted) {
       cancelSearch();
     }
     // add search term to the state
     if (userSearch.indexOf('@') > -1) {
-      setSearchTerm(userSearch.split('@')[1].toLowerCase());
+      const searchArr = userSearch.split('@');
+      setSearchTerm(
+        searchArr[searchArr.length - 1]
+          ? searchArr[searchArr.length - 1].toLowerCase()
+          : searchArr[1].toLowerCase()
+      );
     }
   };
 
@@ -68,17 +78,39 @@ const TextBox = ({ userObjects }: Props) => {
     }
   }, [isOuter, setIsOuter]);
 
+  useEffect(() => {
+    if (selectedUser !== '') {
+      const regex = new RegExp(`@${searchTerm}`, 'ig');
+      const comment = textAreaValue.replace(regex, `@${selectedUser}`);
+      setTextAreaValue(comment);
+      setSelectedUser('');
+      cancelSearch();
+    }
+  }, [
+    selectedUser,
+    setSelectedUser,
+    textAreaValue,
+    setTextAreaValue,
+    searchTerm
+  ]);
+
   return (
-    <div ref={innerRef}>
+    <div ref={innerRef} tabIndex={0}>
       <label htmlFor='comment-field'>
         Write your comment:
         <textarea
+          value={textAreaValue}
           onChange={handleTyping}
-          onKeyDown={handleKeyPress}
           id='comment-field'
         />
         {searchStarted && (
-          <UserWidget searchTerm={searchTerm} userList={userObjects} />
+          <UserWidget
+            selectUser={setSelectedUser}
+            wrapperRef={innerRef}
+            searchTerm={searchTerm}
+            userList={userObjects}
+            cancelSearch={cancelSearch}
+          />
         )}
       </label>
     </div>
