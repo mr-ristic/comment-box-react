@@ -1,4 +1,4 @@
-inimport React, { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ListBox } from './style';
 
 interface UserObject {
