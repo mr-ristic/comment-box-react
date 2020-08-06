@@ -1,6 +1,5 @@
 import React from 'react';
 import CommentBox from 'comment-box-react';
-import 'comment-box-react/dist/index.css';
 import userData from './UserData.json';
 
 // TODO add redux and redux-saga with presist store examples
