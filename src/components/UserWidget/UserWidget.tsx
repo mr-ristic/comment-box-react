@@ -50,12 +50,17 @@ const UserWidget = ({
         const selectIndex = highlighted < 0 ? 0 : highlighted;
         selectUser(filteredList[selectIndex].username);
       }
+      const listLength = filteredList.length;
       // highliht users
       if (keyInput === 'ArrowDown') {
         e.preventDefault();
         const next = highlighted + 1;
-        const listLength = filteredList.length;
-        setHighlighted(next > listLength ? next % listLength : next);
+        setHighlighted(next >= listLength ? next % listLength : next);
+      }
+      if (keyInput === 'ArrowUp') {
+        e.preventDefault();
+        const next = highlighted > -1 ? highlighted - 1 : listLength - 1;
+        setHighlighted(next >= listLength ? next % listLength : next);
       }
     };
 
