@@ -13,6 +13,7 @@ export const TextArea = styled.textarea`
   font-family: inherit;
   display: block;
   resize: none;
+  background: ${({ theme }) => theme.COLORS.background};
   height: ${({ theme }) => theme.SPACING.base * 20}px;
   width: ${({ theme }) => theme.SPACING.base * 60}px;
   font-size: ${({ theme }) => theme.TYPO.size.text14};
