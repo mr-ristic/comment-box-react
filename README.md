@@ -53,7 +53,7 @@ npm i && npm run start
 then in another tab
 
 ```bash
-cd example && npm i && run start
+cd example && npm i && npm run start
 ```
 
 ## Install package
