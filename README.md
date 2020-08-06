@@ -10,6 +10,26 @@
 npm install --save comment-box-react
 ```
 
+## Test
+
+To run unit tests
+
+```bash
+npm run test:unit
+```
+
+To run lint test:
+
+```bash
+npm run test:lint
+```
+
+To run all and build:
+
+```bash
+npm run test
+```
+
 ## Usage
 
 ```tsx
