@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import UserWidget from '../UserWidget';
 import useOuterClick from '../../helpers/hooks/useOuterClick';
-import { TextBoxWrapper, TextLabel, TextArea } from './style';
+import { TextBoxWrapper, TextLabel, TextArea, Submit } from './style';
 
 interface UserObject {
   username: string;
@@ -9,44 +9,42 @@ interface UserObject {
   name: string;
 }
 
-const defalutProps = {
-  userObjects: [
-    {
-      username: 'df-username',
-      avatar_url:
-        'https://secure.gravatar.com/avatar/f04241571d95d005e4a54f4278670718?d=mm',
-      name: 'John Doe'
-    },
-    {
-      username: 'df-username2',
-      avatar_url:
-        'https://secure.gravatar.com/avatar/f04241571d95d005e4a54f4278670718?d=mm',
-      name: 'John Doe 2'
-    },
-    {
-      username: 'df-username3',
-      avatar_url:
-        'https://secure.gravatar.com/avatar/f04241571d95d005e4a54f4278670718?d=mm',
-      name: 'John Doe 3'
-    }
-  ]
-};
+interface LabelsObject {
+  label: string;
+  placeholder: string;
+  submit: string;
+}
 
 type Props = {
-  userObjects?: [UserObject];
-} & typeof defalutProps;
+  userObjects: UserObject[];
+  onSubmitAction?: (v: { text: string; tagged: Array<any> }) => void;
+  labels: LabelsObject;
+};
 
-const TextBox = ({ userObjects }: Props) => {
+const TextBox = ({ userObjects, onSubmitAction, labels }: Props) => {
   const [searchStarted, setSearchStarted] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [textAreaValue, setTextAreaValue] = useState('');
   const innerRef = useRef(null);
   const { isOuter, setIsOuter } = useOuterClick(innerRef);
   const [selectedUser, setSelectedUser] = useState('');
+  const [tagged, setTagged] = useState(['']);
+  const { label, placeholder, submit } = labels;
   // resets state to default
   const cancelSearch = () => {
     setSearchStarted(false);
     setSearchTerm('');
+  };
+  const handleSubmit = () => {
+    if (onSubmitAction) {
+      onSubmitAction({
+        text: textAreaValue,
+        tagged: tagged.length > 1 ? tagged.filter((a) => a !== '') : tagged
+      });
+    }
+
+    setTagged([]);
+    setTextAreaValue('');
   };
   // handle typing so we can display filtered list with as few possible re-rendes
   // another implementation would be with useEffect
@@ -82,7 +80,8 @@ const TextBox = ({ userObjects }: Props) => {
   useEffect(() => {
     if (selectedUser !== '') {
       const regex = new RegExp(`@${searchTerm}`, 'ig');
-      const comment = textAreaValue.replace(regex, `@${selectedUser}`);
+      const comment = textAreaValue.replace(regex, `${selectedUser}`);
+      setTagged([...tagged, selectedUser]);
       setTextAreaValue(comment);
       setSelectedUser('');
       cancelSearch();
@@ -92,19 +91,23 @@ const TextBox = ({ userObjects }: Props) => {
     setSelectedUser,
     textAreaValue,
     setTextAreaValue,
-    searchTerm
+    searchTerm,
+    tagged
   ]);
 
   return (
     <TextBoxWrapper ref={innerRef} tabIndex={0}>
       <TextLabel htmlFor='comment-field'>
-        Write your comment:
+        {label}
         <TextArea
-          placeholder='Remember, be nice!'
+          placeholder={placeholder}
           value={textAreaValue}
           onChange={handleTyping}
           id='comment-field'
         />
+        {onSubmitAction && !searchStarted && (
+          <Submit onClick={handleSubmit}>{submit}</Submit>
+        )}
         {searchStarted && (
           <UserWidget
             selectUser={setSelectedUser}
@@ -118,7 +121,5 @@ const TextBox = ({ userObjects }: Props) => {
     </TextBoxWrapper>
   );
 };
-
-TextBox.defaultProps = defalutProps;
 
 export default TextBox;

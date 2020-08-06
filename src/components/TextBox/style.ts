@@ -27,3 +27,15 @@ export const TextArea = styled.textarea`
     outline: none;
   }
 `;
+
+export const Submit = styled.button`
+  margin-top: ${({ theme }) => theme.SPACING.base}px;
+  padding ${({ theme }) => theme.SPACING.base * 2}px ${({ theme }) =>
+  theme.SPACING.base * 3}px;
+  background: ${({ theme }) => theme.COLORS.submitButton};
+  border: none;
+  color: ${({ theme }) => theme.COLORS.background};
+  text-align: center;
+  text-decoration: none;
+  font-size: ${({ theme }) => theme.TYPO.size.text14};
+`;
