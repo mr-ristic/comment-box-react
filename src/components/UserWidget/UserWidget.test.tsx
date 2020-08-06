@@ -3,6 +3,8 @@ import 'jest-styled-components';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import UserWidget from './UserWidget';
+import theme from '../../theme';
+import { ThemeProvider } from 'styled-components';
 
 describe('UserWidget.test', () => {
   const selectUser = jest.fn((x) => x);
@@ -12,26 +14,28 @@ describe('UserWidget.test', () => {
 
     return (
       <div ref={ref} tabIndex={0}>
-        <UserWidget
-          wrapperRef={ref}
-          cancelSearch={cancel}
-          selectUser={selectUser}
-          userList={[
-            {
-              username: 'df-username',
-              avatar_url:
-                'https://secure.gravatar.com/avatar/f04241571d95d005e4a54f4278670718?d=mm',
-              name: 'John Doe'
-            },
-            {
-              username: 'df-username2',
-              avatar_url:
-                'https://secure.gravatar.com/avatar/f04241571d95d005e4a54f4278670718?d=mm',
-              name: 'Ted'
-            }
-          ]}
-          searchTerm=''
-        />
+        <ThemeProvider theme={theme}>
+          <UserWidget
+            wrapperRef={ref}
+            cancelSearch={cancel}
+            selectUser={selectUser}
+            userList={[
+              {
+                username: 'df-username',
+                avatar_url:
+                  'https://secure.gravatar.com/avatar/f04241571d95d005e4a54f4278670718?d=mm',
+                name: 'John Doe'
+              },
+              {
+                username: 'df-username2',
+                avatar_url:
+                  'https://secure.gravatar.com/avatar/f04241571d95d005e4a54f4278670718?d=mm',
+                name: 'Ted'
+              }
+            ]}
+            searchTerm=''
+          />
+        </ThemeProvider>
       </div>
     );
   };
@@ -67,7 +71,7 @@ describe('UserWidget.test', () => {
 
   it('UserWidget should select second in the list when clicked on listItem', () => {
     render(<OuterComponnt />);
-    const item = screen.getByAltText('Ted');
+    const item = screen.getByAltText('df-username2');
 
     userEvent.click(item);
     expect(selectUser).toBeCalledWith('df-username2');

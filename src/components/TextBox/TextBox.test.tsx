@@ -3,6 +3,8 @@ import TextBox from './index';
 import 'jest-styled-components';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import theme from '../../theme';
+import { ThemeProvider } from 'styled-components';
 
 describe('TextBox.test', () => {
   it('TextBox is truthy', () => {
@@ -10,13 +12,21 @@ describe('TextBox.test', () => {
   });
 
   it('TextBox should render textarea field with prope label & id', () => {
-    const { getByLabelText } = render(<TextBox />);
+    const { getByLabelText } = render(
+      <ThemeProvider theme={theme}>
+        <TextBox />
+      </ThemeProvider>
+    );
     const textArea = getByLabelText('Write your comment:');
     expect(textArea.id).toBe('comment-field');
   });
 
   it('TestBox should render a UserWidget', () => {
-    render(<TextBox />);
+    render(
+      <ThemeProvider theme={theme}>
+        <TextBox />
+      </ThemeProvider>
+    );
     const textArea = screen.getByLabelText('Write your comment:');
     userEvent.type(textArea, '@jo');
 
@@ -25,7 +35,11 @@ describe('TextBox.test', () => {
   });
 
   it('TextBox should display user when typed @ within text and cancel on ESC keypress', () => {
-    render(<TextBox />);
+    render(
+      <ThemeProvider theme={theme}>
+        <TextBox />
+      </ThemeProvider>
+    );
     const textArea = screen.getByLabelText('Write your comment:');
     userEvent.type(textArea, 'Here is my comment, what do you think @jo');
 
@@ -37,7 +51,11 @@ describe('TextBox.test', () => {
   });
 
   it('TextBox should display userList and cancel it on outh of focus', () => {
-    render(<TextBox />);
+    render(
+      <ThemeProvider theme={theme}>
+        <TextBox />
+      </ThemeProvider>
+    );
     const textArea = screen.getByLabelText('Write your comment:');
     userEvent.type(textArea, '@jo');
 
