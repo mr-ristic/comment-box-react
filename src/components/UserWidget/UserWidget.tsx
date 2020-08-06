@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ListBox } from './style';
+import { ListBox, UserList, UserListItem } from './style';
 
 interface UserObject {
   username: string;
@@ -77,14 +77,20 @@ const UserWidget = ({
 
   return (
     <ListBox>
-      <ul title='Tag User'>
+      <UserList title='Tag User'>
         {filteredList.map(({ username, avatar_url, name }, key) => (
-          <li key={key} onClick={() => selectOnClick(key)}>
-            <img src={avatar_url} alt={name} />
-            <h3>{username}</h3>
-          </li>
+          <UserListItem
+            selected={key === highlighted}
+            key={key}
+            onClick={() => selectOnClick(key)}
+            onMouseOver={() => setHighlighted(key)}
+          >
+            <img src={avatar_url} alt={username} />
+            <h3>{name}</h3>
+            <h5>~@{username}</h5>
+          </UserListItem>
         ))}
-      </ul>
+      </UserList>
     </ListBox>
   );
 };

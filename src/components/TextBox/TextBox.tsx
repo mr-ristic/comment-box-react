@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import UserWidget from '../UserWidget';
 import useOuterClick from '../../helpers/hooks/useOuterClick';
+import { TextBoxWrapper, TextLabel, TextArea } from './style';
 
 interface UserObject {
   username: string;
@@ -95,10 +96,11 @@ const TextBox = ({ userObjects }: Props) => {
   ]);
 
   return (
-    <div ref={innerRef} tabIndex={0}>
-      <label htmlFor='comment-field'>
+    <TextBoxWrapper ref={innerRef} tabIndex={0}>
+      <TextLabel htmlFor='comment-field'>
         Write your comment:
-        <textarea
+        <TextArea
+          placeholder='Remember, be nice!'
           value={textAreaValue}
           onChange={handleTyping}
           id='comment-field'
@@ -112,8 +114,8 @@ const TextBox = ({ userObjects }: Props) => {
             cancelSearch={cancelSearch}
           />
         )}
-      </label>
-    </div>
+      </TextLabel>
+    </TextBoxWrapper>
   );
 };
 
