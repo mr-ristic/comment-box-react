@@ -1,4 +1,5 @@
 # comment-box-react
+
 > Made with create-react-library
 
 [![NPM](https://img.shields.io/npm/v/comment-box-react.svg)](https://www.npmjs.com/package/comment-box-react) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
@@ -6,6 +7,7 @@
 Comment-box-ract is package that you can easily import into your React app.
 type @ to activate a user search so you can tag a user.
 If you provide users they need to be in the following format:
+
 ```js
 [
   {
@@ -39,16 +41,25 @@ const labels = {
   submit: 'Submit'
 };
 ```
-## Run
+
+## Run on local
+
 From the root
+
 ```bash
-npm run start
+npm i && npm run start
 ```
 
-then
+then in another tab
 
 ```bash
-cd example && npm run start
+cd example && npm i && run start
+```
+
+## Install package
+
+```bash
+npm i --save comment-box-react
 ```
 
 ## Test

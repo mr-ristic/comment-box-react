@@ -12,7 +12,7 @@ const themeOptions = {
 };
 
 const labels = {
-  label: 'Write your comment man:',
+  label: 'Write your comment please:',
   placeholder: 'Remember, be nice!',
   submit: 'Submit'
 };

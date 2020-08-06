@@ -63,8 +63,6 @@ const CommentBox = ({ userObjects, themeOptions, onSubmit, labels }: Props) => {
     });
   }
 
-  console.log({ userObjects });
-
   return (
     <ThemeProvider theme={theme}>
       <TextBox
