@@ -87,7 +87,6 @@ npm run test
 ```tsx
 import React from 'react';
 import CommentBox from 'comment-box-react';
-import 'comment-box-react/dist/index.css';
 
 const themeOptions = {
   COLORS: {
@@ -108,6 +107,14 @@ const App = () => {
   };
   return (
     <CommentBox
+      userObjects={[
+        {
+          username: 'df-username',
+          avatar_url:
+            'https://secure.gravatar.com/avatar/f04241571d95d005e4a54f4278670718?d=mm',
+          name: 'John Doe'
+        }
+      ]}
       labels={labels}
       onSubmit={submitComment}
       themeOptions={themeOptions}
